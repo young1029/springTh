@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>springTh</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+</head>
+<body ms-controller="viewmodel">
+    <h1>Spring Boot Thymeleaf测试</h1>
+    <button type="button" class="btn btn-primary" style="margin: 10px" ms-click="@request">点我</button>
+    <a th:href="@{/test/add}">点点点</a>
+    <a th:href="@{/test/update}">点点点</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="active">id</th>
+                <th class="success">姓名</th>
+                <th class="warning">性别</th>
+                <th class="danger">年龄</th>
+                <th class="info">角色</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ms-for="el in @datalist">
+                <td>{{el.id}}</td>
+                <td>{{el.name}}</td>
+                <td>{{el.sex}}</td>
+                <td>{{el.age}}</td>
+                <td>{{el.role}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script th:src="@{/js/jquery-3.2.0.min.js}" type="text/javascript"></script>
+    <script th:src="@{/js/bootstrap.min.js}" type="text/javascript"></script>
+    <script th:src="@{/js/avalon.js}" type="text/javascript"></script>
+    <script th:src="@{/js/avalon.modern.js}" type="text/javascript"></script>
+    <script type="text/javascript">
+        var model = avalon.define({
+            $id: "viewmodel",
+            datalist: {},
+            text: "请求数据",
+
+            request: function () {
+                $.ajax({
+                    type: "get",
+                    url: "/hello/data",
+                    data: {},
+                    success: function (data) {
+                        $("button").removeClass("btn-primary").addClass("btn-success").attr("disable",true);
+                        model.datalist = data;
+                        model.text = "请求数据成功渲染";
+                    }
+                })
+            }
+        })
+    </script>
+</body>
+</html>
